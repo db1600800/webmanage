@@ -13,7 +13,7 @@
 
        <mybatis.version>3.2.6</mybatis.version>
          <mysql.version>5.1.29</mysql.version>
-       <ojdbc14.version>14</ojdbc14.version>
+       <ojdbc14.version>1</ojdbc14.version>
        
         <servlet-api.version>2.5</servlet-api.version>
        <jsp-api.version>2.2</jsp-api.version>
@@ -26,6 +26,7 @@
        
            <commons-dbcp.version>1.2.2</commons-dbcp.version>
        <commons-pool.version>1.5.3</commons-pool.version>
+         <velocity.version>1.7</velocity.version> 
     </properties>
     
      <dependencies>
@@ -54,47 +55,15 @@
            <artifactId>struts2-json-plugin</artifactId>
            <version>${struts2.version}</version>
        </dependency>
-       <dependency>
-           <groupId>org.apache.struts</groupId>
-           <artifactId>struts2-dwr-plugin</artifactId>
-           <version>${struts2.version}</version>
-       </dependency>
-       <dependency>
-           <groupId>org.apache.struts</groupId>
-           <artifactId>struts2-rest-plugin</artifactId>
-           <version>${struts2.version}</version>
-       </dependency>
-       <dependency>
-           <groupId>org.apache.struts</groupId>
-           <artifactId>struts2-javatemplates-plugin</artifactId>
-           <version>${struts2.version}</version>
-       </dependency>
-       <dependency>
-           <groupId>org.apache.struts</groupId>
-           <artifactId>struts2-jfreechart-plugin</artifactId>
-           <version>${struts2.version}</version>
-       </dependency>
-       <dependency>
-           <groupId>org.apache.struts</groupId>
-           <artifactId>struts2-osgi-plugin</artifactId>
-           <version>${struts2.version}</version>
-       </dependency>
-       <dependency>
-           <groupId>org.apache.struts</groupId>
-           <artifactId>struts2-tiles-plugin</artifactId>
-           <version>${struts2.version}</version>
-       </dependency>
+   
+    
     
        <dependency>
            <groupId>org.apache.struts</groupId>
            <artifactId>struts2-convention-plugin</artifactId>
            <version>${struts2.version}</version>
        </dependency>
-       <dependency>
-           <groupId>org.apache.struts</groupId>
-           <artifactId>struts2-portlet-plugin</artifactId>
-           <version>${struts2.version}</version>
-       </dependency>
+       
      
        <!-- spring相关 -->
        <dependency>
@@ -245,7 +214,22 @@
            <version>${commons-pool.version}</version>
        </dependency>
    
-        
+
+             <dependency>
+    <groupId>org.apache.velocity</groupId>
+    <artifactId>velocity</artifactId>
+    <version>1.7</version>
+</dependency>
+
+  
+       
+       <dependency>
+    <groupId>velocity-tools</groupId>
+    <artifactId>velocity-tools-view</artifactId>
+    <version>1.0</version>
+</dependency>
+
+
        
        </dependencies>
   <build>
