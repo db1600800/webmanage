@@ -35,6 +35,7 @@ public class ObjectDaoImpl extends HibernateDaoSupport implements ObjectDao {
 	public void save(Object po) {
 		getHibernateTemplate().save(po);
 	}
+
 //
 //	//@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 //	public String saveAndReturnKeyId(Object po) {
