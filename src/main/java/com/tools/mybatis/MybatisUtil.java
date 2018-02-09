@@ -1,3 +1,5 @@
+package com.tools.mybatis;
+
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -6,6 +8,7 @@ import java.io.Reader;
 public class MybatisUtil {
     private static SqlSessionFactory sessionFactory;
     private static Reader reader;
+    
     static {
         try {
             //mybatis的配置文件
