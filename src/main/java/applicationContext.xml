@@ -18,7 +18,10 @@
 	<context:annotation-config />
    	<!-- 使用 annotation 自动注册bean,并检查@Controller, @Service, @Repository注解已被注入 --> 
 	<context:component-scan base-package="com.ssh" />
-<context:component-scan base-package="com.cpz" />
+    <context:component-scan base-package="com.cpz" />
+
+
+
 	<!-- 数据库配置 -->
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource">
