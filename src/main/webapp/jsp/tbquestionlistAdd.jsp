@@ -77,7 +77,7 @@ $(document).on('ready', function() {
 </script>
 </head>
 <body>
- <form action="TbQuestionListAction!doAdd" method="post" enctype="multipart/form-data" name="myForm">
+ <form action="TbQuestionListServlet?method=doAdd" method="post" enctype="multipart/form-data" name="myForm">
 	<div style="margin-left: 20px;">题目信息表</div>
 	<div class="table_form lr10">
 		<table width="100%" cellspacing="0" cellpadding="0">

@@ -24,10 +24,10 @@ public class TbQuestionListServiceImpl implements TbQuestionListService {
 	@Override
 	public List<TbQuestionListBean> get(Map para) throws Exception {
 		// TODO Auto-generated method stub
-		/*
-		 * Map<String,Object> m = new HashMap();
-		 * mapper=session.getMapper(TbQuestionListMapper.class);
-		 */
+		
+		 Map<String,Object> m = new HashMap();
+		 mapper=session.getMapper(TbQuestionListMapper.class);
+		 
 		List list=null;
 		try {
 			 list = mapper.TbQuestionListSelect(para);

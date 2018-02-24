@@ -11,19 +11,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
 	<script>
 		function toAdd(){
-			window.location.href="TbQuestionListAction!toAdd?question_id=${question_id}";
+			window.location.href="TbQuestionListServlet?method=toAdd&question_id=${question_id}";
 		}
 		
 		
 		$(document).on('ready', function() {
 			var question_id="${question_id}";
 			$("#question_id").val(question_id);
-			getAll('TbQuestionListAction!list');
+			getAll('TbQuestionListServlet?method=list');
 		});
 		
 		
 		function search(){
-			getAll('TbQuestionListAction!list');
+			getAll('TbQuestionListServlet?method=list');
 		}
 		
 		function dodel(mquestion_id){
@@ -31,13 +31,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			if(r){
 				$.ajax({
 					type:'POST',
-					url:'TbQuestionListAction!doDelete',
+					url:'TbQuestionListServlet?method=doDelete',
 					data:{
 question_id:mquestion_id					
 },
 					success:function(k){
 							alert("删除成功！")
-							window.location.href = "TbQuestionListAction!index?question_id=${question_id}";
+							window.location.href = "TbQuestionListServlet?method=index&question_id=${question_id}";
 					},
 					error : function() {
 						alert("对不起，系统错误，请稍候重试！")
@@ -71,7 +71,7 @@ question_id:searchInput					},
 	 divtext += '<td>' + data[i].last_modify_tlr_id + '</td>';
 	 divtext += '<td>' + data[i].last_modify_prg_id + '</td>';
 	 divtext += '<td>' + data[i].last_modify_tm + '</td>';
-								divtext += '<td ><a href="TbQuestionListAction!toUpdate?question_id='+data[i].question_id+'"> [修改] </a>'
+								divtext += '<td ><a href="TbQuestionListServlet?method=toUpdate&question_id='+data[i].question_id+'"> [修改] </a>'
 								divtext +='|<a href="javascript:void(0);" onclick="dodel('+data[i].question_id+')"> [删除] </a></td>';
 								divtext += '</tr>';
 							}

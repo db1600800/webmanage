@@ -104,7 +104,7 @@ var resultFile = document.getElementById(file_id).files[0];
 </script>
 </head>
 <body>
- <form action="TbQuestionListAction!doUpdate" method="post" enctype="multipart/form-data" name="myForm">
+ <form action="TbQuestionListServlet?method=doUpdate" method="post" enctype="multipart/form-data" name="myForm">
 	<div style="margin-left: 20px;">题目信息表</div>
 	<div class="table_form lr10">
 		<table width="100%" cellspacing="0" cellpadding="0">
