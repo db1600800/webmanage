@@ -8,6 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <title>题目信息表</title>
+<link rel="stylesheet" href="<%=basePath%>css/admin_style.css" type="text/css" />
 	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
 	<script>
 		function toAdd(){
@@ -63,16 +64,16 @@ question_id:searchInput					},
 						
 							for(var i=0;i<data.length;i++){
 								divtext += '<tr class="even" style="white-space:nowrap; overflow:hidden; text-align:center">';
-	 divtext += '<td>' + data[i].question_msg + '</td>';
-	 divtext += '<td>' + data[i].question_img + '</td>';
-	 divtext += '<td>' + data[i].question_answers + '</td>';
-	 divtext += '<td>' + data[i].question_true_answer + '</td>';
-	 divtext += '<td>' + data[i].question_score + '</td>';
-	 divtext += '<td>' + data[i].last_modify_tlr_id + '</td>';
-	 divtext += '<td>' + data[i].last_modify_prg_id + '</td>';
-	 divtext += '<td>' + data[i].last_modify_tm + '</td>';
-								divtext += '<td ><a href="TbQuestionListServlet?method=toUpdate&question_id='+data[i].question_id+'"> [修改] </a>'
-								divtext +='|<a href="javascript:void(0);" onclick="dodel('+data[i].question_id+')"> [删除] </a></td>';
+	 divtext += '<td>' + data[i].questionMsg + '</td>';
+	 divtext += '<td>' + data[i].questionImg + '</td>';
+	 divtext += '<td>' + data[i].questionAnswers + '</td>';
+	 divtext += '<td>' + data[i].questionTrueAnswer + '</td>';
+	 divtext += '<td>' + data[i].questionScore + '</td>';
+	 divtext += '<td>' + data[i].lastModifyTlrId + '</td>';
+	 divtext += '<td>' + data[i].lastModifyPrgId + '</td>';
+	 divtext += '<td>' + data[i].lastModifyTm + '</td>';
+								divtext += '<td ><a href="TbQuestionListServlet?method=toUpdate&question_id='+data[i].questionId+'"> [修改] </a>'
+								divtext +='|<a href="javascript:void(0);" onclick="dodel('+data[i].questionId+')"> [删除] </a></td>';
 								divtext += '</tr>';
 							}
 							//divtext += pagenational;
