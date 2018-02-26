@@ -9,6 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <title>题目信息表</title>
+<link rel="stylesheet" href="<%=basePath%>css/admin_style.css" type="text/css" />
 <script src="${ctx}/kindeditor/kindeditor.js" type="text/javascript"></script>
 <script src="${ctx}/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
 	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>

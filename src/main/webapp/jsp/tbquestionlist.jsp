@@ -8,6 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <title>题目信息表</title>
+<link rel="stylesheet" href="<%=basePath%>css/admin_style.css" type="text/css" />
 	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
 	<script>
 		function toAdd(){
@@ -56,23 +57,26 @@ var searchInput = $("#searchInput").val();
 					data:{
 question_id:searchInput					},
 					success:function(result){
-	
+					
 							var divtext = '';
 							var data =result.list;
 							var pagenational = result.pageString;
 						
 							for(var i=0;i<data.length;i++){
+								var d=data[i];
+								var dd=d.question_img;
+								var obj = eval('(' + d + ')');
 								divtext += '<tr class="even" style="white-space:nowrap; overflow:hidden; text-align:center">';
-	 divtext += '<td>' + data[i].question_msg + '</td>';
-	 divtext += '<td>' + data[i].question_img + '</td>';
-	 divtext += '<td>' + data[i].question_answers + '</td>';
-	 divtext += '<td>' + data[i].question_true_answer + '</td>';
-	 divtext += '<td>' + data[i].question_score + '</td>';
-	 divtext += '<td>' + data[i].last_modify_tlr_id + '</td>';
-	 divtext += '<td>' + data[i].last_modify_prg_id + '</td>';
-	 divtext += '<td>' + data[i].last_modify_tm + '</td>';
+	 divtext += '<td>' + data[i]['question_msg'] + '</td>';
+	 divtext += '<td>' + data.question_img + '</td>';
+	 divtext += '<td>' + data.question_answers + '</td>';
+	 divtext += '<td>' + data.question_true_answer + '</td>';
+	 divtext += '<td>' + data.question_score + '</td>';
+	 divtext += '<td>' + data.last_modify_tlr_id + '</td>';
+	 divtext += '<td>' + data.last_modify_prg_id + '</td>';
+	 divtext += '<td>' + data.last_modify_tm + '</td>';
 								divtext += '<td ><a href="TbQuestionListServlet?method=toUpdate&question_id='+data[i].question_id+'"> [修改] </a>'
-								divtext +='|<a href="javascript:void(0);" onclick="dodel('+data[i].question_id+')"> [删除] </a></td>';
+								divtext +='|<a href="javascript:void(0);" onclick="dodel('+data.question_id+')"> [删除] </a></td>';
 								divtext += '</tr>';
 							}
 							//divtext += pagenational;
