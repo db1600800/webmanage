@@ -69,11 +69,64 @@ public class TbQuestionListServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * private void demo(HttpServletRequest request, HttpServletResponse response) {
+	 * 
+	 * //第一步 取值 //取值 ajax提交的数据 request.setCharacterEncoding("UTF-8"); String method
+	 * = request.getParameter("method"); //参数用html里name=""的值
+	 * 
+	 * 
+	 * //取值 form表单提交的数据 method="post" enctype="multipart/form-data"
+	 * if(ServletFileUpload.isMultipartContent(request)) { FileItemFactory factory =
+	 * new DiskFileItemFactory(); ServletFileUpload upload = new
+	 * ServletFileUpload(factory); List<FileItem> items =
+	 * upload.parseRequest(request); for(FileItem i: items) { i.getFieldName();
+	 * //参数名 //i.getString(); //参数值（返回字符串），如果是上传文件，则为文件内容 //i.get();
+	 * //参数值（返回字节数组），如果是上传文件，则为文件内容 //i.getInputStream();//上传文件内容 //i.getSize();
+	 * //参数值的字节大小 //i.getName(); //上传文件的文件名 //i.getContentType(); //上传文件的内容类型
+	 * if(!i.isFormField()&&i.getSize()>0) //简单参数返回true，文件返回false { ServletContext
+	 * servletContext = request.getSession().getServletContext();
+	 * //2.调用realPath方法，获取根据一个虚拟目录得到的真实目录 String realPath =
+	 * servletContext.getRealPath("/WEB-INF/file"); //3.如果这个真实的目录不存在，需要创建 File file
+	 * = new File(realPath ); if(!file.exists()){ file.mkdirs(); }
+	 * myfile.renameTo(new File(file,myfileFileName)); } } }
+	 * 
+	 * 
+	 * //第二步 发网络请求或发数据库请求
+	 * 
+	 * 
+	 * //第三步 正确跳转到哪 错误跳转到哪 一般用forward //A跳到新页面 // 1. try {
+	 * response.sendRedirect("/a.jsp");//servlet?name=tom
+	 * 通过get方法传递数据到下个页面(本域名下页面或跨域页面) 跳转后浏览器地址栏变化。 } catch (IOException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); }
+	 * 
+	 * //2. request.setAttribute("strRequest", ""); RequestDispatcher dispatcher =
+	 * request.getRequestDispatcher("/a.jsp");//本域 跳转后浏览器地址栏不会变化。 try { dispatcher
+	 * .forward(request, response); } catch (ServletException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } catch (IOException e) { //
+	 * TODO Auto-generated catch block e.printStackTrace(); }
+	 * 
+	 * 
+	 * //B跳回到本页面(带参数) response.setCharacterEncoding("utf-8");
+	 * response.setContentType("application/json"); PrintWriter out =
+	 * response.getWriter();
+	 * 
+	 * JSONArray jsonArray = JSONArray.fromObject(rows);
+	 * 
+	 * out.write("{"returnCode":"00","info":"成功。","returnData":" +
+	 * jsonArray.toString()+ "}"); out.flush(); out.close();
+	 * 
+	 * 
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
 	public void index(HttpServletRequest request, HttpServletResponse response) {
-		int question_id =request.getParameter("question_id")==null ? 0 :Integer.valueOf( request.getParameter("question_id"));
+		int question_id = request.getParameter("question_id") == null ? 0
+				: Integer.valueOf(request.getParameter("question_id"));
 		request.setAttribute("question_id", question_id);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/tbquestionlist.jsp");// 本域
-																										// 跳转后浏览器地址栏不会变化。
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/tbquestionlist.jsp");// 本域 跳转后浏览器地址栏不会变化。
 		try {
 			dispatcher.forward(request, response);
 		} catch (ServletException e) {
@@ -94,66 +147,76 @@ public class TbQuestionListServlet extends HttpServlet {
 		}
 		String pageSize = request.getParameter("pageSize");
 		if (StringUtils.isBlank(pageSize)) {
-			pageSize = "10";
+			pageSize = "2";
 			request.setAttribute("pageSize", pageSize);
 		}
+		String nextPagePara = "";
 		Map paraMap = new HashMap();
 		paraMap.put("currIndex", (Integer.valueOf(pageNo) - 1) * Integer.valueOf(pageSize));
-		paraMap.put("pageSize", pageSize);
+		paraMap.put("pageSize", Integer.valueOf(pageSize));
 		String question_id = request.getParameter("question_id");
 		if (StringUtils.isBlank(question_id)) {
 			// return;
 		} else {
 			paraMap.put("question_id", Integer.valueOf(question_id));
+			nextPagePara += "question_id=" + question_id + "%26";
 		}
-		String question_msg = request.getParameter("question_msg");
-		if (StringUtils.isBlank(question_msg)) {
-			// return;
-		} else {
-			paraMap.put("question_msg", question_msg);
-		}
-		String question_img = request.getParameter("question_img");
-		if (StringUtils.isBlank(question_img)) {
-			// return;
-		} else {
-			paraMap.put("question_img", question_img);
-		}
-		String question_answers = request.getParameter("question_answers");
-		if (StringUtils.isBlank(question_answers)) {
-			// return;
-		} else {
-			paraMap.put("question_answers", question_answers);
-		}
-		String question_true_answer = request.getParameter("question_true_answer");
-		if (StringUtils.isBlank(question_true_answer)) {
-			// return;
-		} else {
-			paraMap.put("question_true_answer", question_true_answer);
-		}
-		String question_score = request.getParameter("question_score");
-		if (StringUtils.isBlank(question_score)) {
-			// return;
-		} else {
-			paraMap.put("question_score", Integer.valueOf(question_score));
-		}
-		String last_modify_tlr_id = request.getParameter("last_modify_tlr_id");
-		if (StringUtils.isBlank(last_modify_tlr_id)) {
-			// return;
-		} else {
-			paraMap.put("last_modify_tlr_id", last_modify_tlr_id);
-		}
-		String last_modify_prg_id = request.getParameter("last_modify_prg_id");
-		if (StringUtils.isBlank(last_modify_prg_id)) {
-			// return;
-		} else {
-			paraMap.put("last_modify_prg_id", last_modify_prg_id);
-		}
-		String last_modify_tm = request.getParameter("last_modify_tm");
-		if (StringUtils.isBlank(last_modify_tm)) {
-			// return;
-		} else {
-			paraMap.put("last_modify_tm", last_modify_tm);
-		}
+//		String question_msg = request.getParameter("question_msg");
+//		if (StringUtils.isBlank(question_msg)) {
+//			// return;
+//		} else {
+//			paraMap.put("question_msg", question_msg);
+//			nextPagePara += "question_msg=" + question_msg + "%26";
+//		}
+//		String question_img = request.getParameter("question_img");
+//		if (StringUtils.isBlank(question_img)) {
+//			// return;
+//		} else {
+//			paraMap.put("question_img", question_img);
+//			nextPagePara += "question_img=" + question_img + "%26";
+//		}
+//		String question_answers = request.getParameter("question_answers");
+//		if (StringUtils.isBlank(question_answers)) {
+//			// return;
+//		} else {
+//			paraMap.put("question_answers", question_answers);
+//			nextPagePara += "question_answers=" + question_answers + "%26";
+//		}
+//		String question_true_answer = request.getParameter("question_true_answer");
+//		if (StringUtils.isBlank(question_true_answer)) {
+//			// return;
+//		} else {
+//			paraMap.put("question_true_answer", question_true_answer);
+//			nextPagePara += "question_true_answer=" + question_true_answer + "%26";
+//		}
+//		String question_score = request.getParameter("question_score");
+//		if (StringUtils.isBlank(question_score)) {
+//			// return;
+//		} else {
+//			paraMap.put("question_score", Integer.valueOf(question_score));
+//			nextPagePara += "question_score=" + question_score + "%26";
+//		}
+//		String last_modify_tlr_id = request.getParameter("last_modify_tlr_id");
+//		if (StringUtils.isBlank(last_modify_tlr_id)) {
+//			// return;
+//		} else {
+//			paraMap.put("last_modify_tlr_id", last_modify_tlr_id);
+//			nextPagePara += "last_modify_tlr_id=" + last_modify_tlr_id + "%26";
+//		}
+//		String last_modify_prg_id = request.getParameter("last_modify_prg_id");
+//		if (StringUtils.isBlank(last_modify_prg_id)) {
+//			// return;
+//		} else {
+//			paraMap.put("last_modify_prg_id", last_modify_prg_id);
+//			nextPagePara += "last_modify_prg_id=" + last_modify_prg_id + "%26";
+//		}
+//		String last_modify_tm = request.getParameter("last_modify_tm");
+//		if (StringUtils.isBlank(last_modify_tm)) {
+//			// return;
+//		} else {
+//			paraMap.put("last_modify_tm", last_modify_tm);
+//			nextPagePara += "last_modify_tm=" + last_modify_tm + "%26";
+//		}
 		TbQuestionListService tbQuestionListService = new TbQuestionListServiceImpl();
 		List<TbQuestionListBean> tbquestionlistBeans = null;
 		try {
@@ -162,21 +225,17 @@ public class TbQuestionListServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
+		TbQuestionListService tbQuestionListService1 = new TbQuestionListServiceImpl();
 		int count = 0;
 		try {
-			count = tbQuestionListService.getCount(paraMap);
+			count = tbQuestionListService1.getCount(paraMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		String pageString = PaginationUtil.getPaginationHtml(Integer.valueOf(count), Integer.valueOf(pageSize),
 				Integer.valueOf(pageNo), Integer.valueOf(2), Integer.valueOf(5),
-				"javascript:getAll('TbQuestionListAction!list?question_id=" + question_id + "%26question_msg="
-						+ question_msg + "%26question_img=" + question_img + "%26question_answers=" + question_answers
-						+ "%26question_true_answer=" + question_true_answer + "%26question_score=" + question_score
-						+ "%26last_modify_tlr_id=" + last_modify_tlr_id + "%26last_modify_prg_id=" + last_modify_prg_id
-						+ "%26last_modify_tm=" + last_modify_tm + "%26pageNo=" + pageNo + "",
-				true);
+				"javascript:getAll('TbQuestionListServlet?method=list%26"+nextPagePara+"pageNo=", true);
 		pageString = pageString.replace(".html", "");
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("list", tbquestionlistBeans);
@@ -214,7 +273,7 @@ public class TbQuestionListServlet extends HttpServlet {
 		if (tbquestionlistBeans != null && tbquestionlistBeans.size() == 1) {
 			request.setAttribute("entity", (TbQuestionListBean) tbquestionlistBeans.get(0));
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/tbquestionlistSetting.jsp");// 本域
-																												// 跳转后浏览器地址栏不会变化。
+																											// 跳转后浏览器地址栏不会变化。
 			try {
 				dispatcher.forward(request, response);
 			} catch (ServletException e) {
@@ -226,7 +285,7 @@ public class TbQuestionListServlet extends HttpServlet {
 			}
 		} else {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/tbquestionlistAdd.jsp");// 本域
-																											// 跳转后浏览器地址栏不会变化。
+																										// 跳转后浏览器地址栏不会变化。
 			try {
 				dispatcher.forward(request, response);
 			} catch (ServletException e) {
@@ -325,8 +384,7 @@ public class TbQuestionListServlet extends HttpServlet {
 		} else {
 			request.setAttribute("question_id", Integer.valueOf(question_id));
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/tbquestionlistAdd.jsp");// 本域
-																										// 跳转后浏览器地址栏不会变化。
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/tbquestionlistAdd.jsp");// 本域 跳转后浏览器地址栏不会变化。
 		try {
 			dispatcher.forward(request, response);
 		} catch (ServletException e) {
@@ -433,89 +491,14 @@ public class TbQuestionListServlet extends HttpServlet {
 		out.flush();
 		out.close();
 	}
-	
-	
-	/*    private void demo(HttpServletRequest request, HttpServletResponse response) {
-    
-	 //第一步 取值  
-	        //取值  ajax提交的数据  
-	          request.setCharacterEncoding("UTF-8");
-	        String method = request.getParameter("method"); //参数用html里name=""的值
-	        
-	        
-	      //取值  form表单提交的数据  method="post" enctype="multipart/form-data"
-	        if(ServletFileUpload.isMultipartContent(request)) 
-	        {
-	            FileItemFactory factory = new DiskFileItemFactory();
-	            ServletFileUpload upload = new ServletFileUpload(factory);
-	            List<FileItem> items = upload.parseRequest(request);
-	            for(FileItem i: items)
-	            {
-	                i.getFieldName();  　　//参数名
-	                //i.getString();   　　//参数值（返回字符串），如果是上传文件，则为文件内容
-	        　　　　 //i.get();         　　//参数值（返回字节数组），如果是上传文件，则为文件内容
-	//i.getInputStream();//上传文件内容
-	        　　　　 //i.getSize();　　　　　//参数值的字节大小
-	        　　　　 //i.getName();   　 　 //上传文件的文件名
-	        　　　　 //i.getContentType();  //上传文件的内容类型
-	        　　　　 if(!i.isFormField()&&i.getSize()>0)　　 //简单参数返回true，文件返回false 
-	  {
-	ServletContext servletContext = request.getSession().getServletContext();
-	//2.调用realPath方法，获取根据一个虚拟目录得到的真实目录	
-	String realPath = servletContext.getRealPath("/WEB-INF/file");
-	//3.如果这个真实的目录不存在，需要创建
-	File file = new File(realPath );
-	if(!file.exists()){
-	file.mkdirs();
-	}
-	myfile.renameTo(new File(file,myfileFileName));
-	        　　}
-	        　　}
-	        }
-	        
-	      
-	 //第二步  发网络请求或发数据库请求 
-	        
-	       
-	 //第三步  正确跳转到哪  错误跳转到哪  一般用forward
-	        //A跳到新页面
-	        // 1.
-	        try {
-				response.sendRedirect("/a.jsp");//servlet?name=tom 通过get方法传递数据到下个页面(本域名下页面或跨域页面) 跳转后浏览器地址栏变化。
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-	         //2.
-	         request.setAttribute("strRequest", ""); 
-	        RequestDispatcher dispatcher = request.getRequestDispatcher("/a.jsp");//本域   跳转后浏览器地址栏不会变化。
-	        try {
-				dispatcher .forward(request, response);
-			} catch (ServletException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-	        
-	        //B跳回到本页面(带参数)
-	      response.setCharacterEncoding("utf-8");
-			response.setContentType("application/json");
-			PrintWriter out = response.getWriter();
-			
-			JSONArray jsonArray = JSONArray.fromObject(rows);
-			
-			out.write("{"returnCode":"00","info":"成功。","returnData":" + jsonArray.toString()+ "}");
-	        out.flush();
-	        out.close();
-	        
-	        
-	        
-	    }
-	 
-	}*/
 
 }
+
+// web.xml添加
+/*
+ * <servlet> <servlet-name>TbQuestionListServlet</servlet-name> <servlet-class>
+ * com..TbQuestionListServlet </servlet-class> </servlet>
+ * 
+ * <servlet-mapping> <servlet-name>TbQuestionListServlet</servlet-name>
+ * <url-pattern>/TbQuestionListServlet</url-pattern> </servlet-mapping>
+ */

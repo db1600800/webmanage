@@ -9,10 +9,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <title>题目信息表</title>
 <link rel="stylesheet" href="<%=basePath%>css/admin_style.css" type="text/css" />
+<script type="text/javascript" language="javascript" src="<%=basePath%>js/My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript" src="<%=basePath%>js/jquery.js"></script>
 	<script>
 		function toAdd(){
-			window.location.href="TbQuestionListServlet?method=toAdd&question_id=${question_id}";
+			var question_id="${question_id}";
+			$("#question_id").val(question_id);
+			window.location.href="TbQuestionListServlet?method=toAdd";
 		}
 		
 		
@@ -50,12 +53,32 @@ question_id:mquestion_id
 		}
 		function getAll(tzurl){
 var searchInput = $("#searchInput").val();
-				$.ajax({
+		if(searchInput!="" ){  
+		if( !/^\d+$/.test(searchInput)){  
+	        alert("必须是正整数!"); 
+	        return ;
+	    }  
+	    }  
+		
+var endTime=$("#endTime").val();
+var startTime=$("#endTime").val();
+		if($("#endTime").val()!="" &&$("#startTime").val()!="" && $("#startTime").val() > $("#endTime").val()){
+				alert("开始时间不能大于结束时间");
+				return ;
+		}
+var stateSelect=$("#stateSelect").val();
+	
+
+			$.ajax({
 					type:'POST',
 					dataType:'json',
 					url:tzurl,
 					data:{
-question_id:searchInput					},
+question_id:searchInput,
+ start:startTime,
+end:endTime,
+state:stateSelect
+					},
 					success:function(result){
 	
 							var divtext = '';
@@ -88,6 +111,16 @@ question_id:searchInput					},
 	<div style="padding-left:20px;margin-bottom:10px;" >
 	<input type="hidden" id="question_id" name="question_id" value="" />
 	题目信息表：<input type="text" id="searchInput" style="margin-left:10px;width:100px;height:20px; "/>
+状态:
+<select id="stateSelect" name="stateSelect" class="form-control" >
+<option value="">请选择</option>
+<option value="开启">0</option>
+<option value="关闭">1</option>
+</select>
+	开始时间:<input id="startTime" name="startTime" value="" style="margin-right:10px;width: 150px" class="Wdate" 
+	 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})"/>
+	结束时间:<input id="endTime" name="endTime" value="" style="margin-right:10px;width: 150px" class="Wdate" 
+	 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})"/>
 	<input type="button" value="查询" name = "btn_search" onmouseover="this.style.cursor='hand'" style="width:50px;height:20px;font-size:12px;" class="subBtn" onclick="search()">
 	<input type="button" value="新增" name = "btn_search" onmouseover="this.style.cursor='hand'" style="width:50px;height:20px;font-size:12px;" class="subBtn" onclick="toAdd()">
 	

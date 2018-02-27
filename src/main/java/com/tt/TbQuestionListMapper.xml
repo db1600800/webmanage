@@ -5,13 +5,13 @@
 	<!-- oracle 分页 -->
 	<sql id="Oracle_Pagination_Head">
 		<if test="currIndex!=null and pageSize!=null">
-            <![CDATA[select y.* from(select z.*,rownum as oracleStart from (]]>
+            <![CDATA[select y.* from(select z.*,rownum as rn from (]]>
 		</if>
 	</sql>
 
 	<sql id="Oracle_Pagination_Tail">
 		<if test="currIndex != null and pageSize != null">
-            <![CDATA[ ) z where rownum <= #{pageSize} ) y where y.oracleStart > #{currIndex} ]]>
+            <![CDATA[ ) z where rownum <= #{pageSize}+#{currIndex} ) y where y.rn > #{currIndex} ]]>
 		</if>
 	</sql>
 	<!-- end oracle 分页 -->
@@ -214,3 +214,4 @@
 		</trim>
 	</update>
 </mapper>
+

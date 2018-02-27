@@ -130,9 +130,10 @@ public class TbQuestionListAction {
 			e.printStackTrace();
 		}
 
+		TbQuestionListService tbQuestionListService1 = new TbQuestionListServiceImpl();
 		int count = 0;
 		try {
-			count = tbQuestionListService.getCount(paraMap);
+			count = tbQuestionListService1.getCount( paraMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

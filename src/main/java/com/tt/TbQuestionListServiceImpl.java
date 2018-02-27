@@ -24,13 +24,11 @@ public class TbQuestionListServiceImpl implements TbQuestionListService {
 	@Override
 	public List<TbQuestionListBean> get(Map para) throws Exception {
 		// TODO Auto-generated method stub
-		
-		 Map<String,Object> m = new HashMap();
-		 mapper=session.getMapper(TbQuestionListMapper.class);
-		 
-		List list=null;
+		mapper = session.getMapper(TbQuestionListMapper.class);
+
+		List list = null;
 		try {
-			 list = mapper.TbQuestionListSelect(para);
+			list = mapper.TbQuestionListSelect(para);
 		} finally {
 			session.close();
 			return list;
@@ -40,10 +38,8 @@ public class TbQuestionListServiceImpl implements TbQuestionListService {
 	@Override
 	public int getCount(Map para) throws Exception {
 		// TODO Auto-generated method stub
-		/*
-		 * Map<String,Object> m = new HashMap();
-		 * mapper=session.getMapper(TbQuestionListMapper.class);
-		 */
+		mapper = session.getMapper(TbQuestionListMapper.class);
+
 		int count = 0;
 		try {
 			count = mapper.TbQuestionListSelectCount(para);
@@ -57,7 +53,8 @@ public class TbQuestionListServiceImpl implements TbQuestionListService {
 	public void insert(TbQuestionListBean bean) {
 		mapper = session.getMapper(TbQuestionListMapper.class);
 		try {
-		   mapper.TbQuestionListInsert(bean);
+			mapper.TbQuestionListInsert(bean);
+			session.commit();
 		} finally {
 			session.close();
 		}
@@ -68,6 +65,7 @@ public class TbQuestionListServiceImpl implements TbQuestionListService {
 		mapper = session.getMapper(TbQuestionListMapper.class);
 		try {
 			mapper.TbQuestionListUpdate(bean);
+			session.commit();
 		} finally {
 			session.close();
 		}
@@ -78,6 +76,7 @@ public class TbQuestionListServiceImpl implements TbQuestionListService {
 		mapper = session.getMapper(TbQuestionListMapper.class);
 		try {
 			mapper.TbQuestionListDelete(bean);
+			session.commit();
 		} finally {
 			session.close();
 		}

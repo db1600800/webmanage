@@ -10,6 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <title>题目信息表</title>
+<link rel="stylesheet" href="<%=basePath%>css/admin_style.css" type="text/css" />
 <script src="${ctx}/kindeditor/kindeditor.js" type="text/javascript"></script>
 <script src="${ctx}/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
 <script type="text/javascript" language="javascript" src="${ctx}/js/My97DatePicker/WdatePicker.js"></script>
@@ -89,12 +90,15 @@ $(document).on('ready', function() {
 						id="question_msg" name="entity.question_msg" value="${ entity.question_msg}"/></td>
 					
 				</tr>
-				<tr>
-					<td align="right" style="width: 120px"><font color="red">*</font>题目图片：</td>
-					<td><input type="text" class="input-text wid400 bg"
-						id="question_img" name="entity.question_img" value="${ entity.question_img}"/></td>
-					
-				</tr>
+					<tr >
+						<td align="right" style="width: 120px">题目图片：
+						</td>
+						<td>
+							<input type="file" id="file1" name="file1"  />
+								
+						</td>
+						
+					</tr>
 				<tr>
 					<td align="right" style="width: 120px"><font color="red">*</font>题目可选答案：</td>
 					<td><input type="text" class="input-text wid400 bg"
