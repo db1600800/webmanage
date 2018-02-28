@@ -88,6 +88,17 @@ public class TbQuestionListLocalApplicationTest {
 	}
 
 	public void doAdd() throws IOException {
+		Map paraMap=new HashMap();
+		paraMap.put("columnName", "question_id");
+		TbQuestionListService tbQuestionListServiceForMax=new TbQuestionListServiceImpl();
+		int max=0;
+		try {
+		max=tbQuestionListServiceForMax.getMax(paraMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		
 		TbQuestionListBean tbQuestionListBean = new TbQuestionListBean();
 		tbQuestionListBean.setQuestionId(Integer.valueOf(5));
 		tbQuestionListBean.setQuestionMsg("question_msg");

@@ -5,6 +5,7 @@ import java.util.Map;
 public interface TbQuestionListService {
 	List<TbQuestionListBean> get(Map para) throws Exception;
 	int getCount(Map para) throws Exception;
+	int getMax(Map para) throws Exception;
 void insert(TbQuestionListBean bean);
 void update(TbQuestionListBean bean);
 void delete(TbQuestionListBean bean);

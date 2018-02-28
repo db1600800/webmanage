@@ -48,6 +48,20 @@ public class TbQuestionListServiceImpl implements TbQuestionListService {
 			return count;
 		}
 	}
+	
+	@Override
+	public int getMax(Map para) throws Exception {
+		// TODO Auto-generated method stub
+mapper=session.getMapper(TbQuestionListMapper.class);
+
+int max=0;
+try{
+  max=mapper.TbQuestionListSelectMax(para);
+} finally {
+session.close();
+return max;
+	}
+	}
 
 	@Override
 	public void insert(TbQuestionListBean bean) {

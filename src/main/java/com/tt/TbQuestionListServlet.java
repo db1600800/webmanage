@@ -1,5 +1,4 @@
 package com.tt;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -77,19 +76,20 @@ public class TbQuestionListServlet extends HttpServlet {
 	 * 
 	 * 
 	 * //取值 form表单提交的数据 method="post" enctype="multipart/form-data"
-	 * if(ServletFileUpload.isMultipartContent(request)) { FileItemFactory factory =
-	 * new DiskFileItemFactory(); ServletFileUpload upload = new
+	 * if(ServletFileUpload.isMultipartContent(request)) { try { FileItemFactory
+	 * factory = new DiskFileItemFactory(); ServletFileUpload upload = new
 	 * ServletFileUpload(factory); List<FileItem> items =
-	 * upload.parseRequest(request); for(FileItem i: items) { i.getFieldName();
+	 * upload.parseRequest(request); for(FileItem i: items) { //i.getFieldName();
 	 * //参数名 //i.getString(); //参数值（返回字符串），如果是上传文件，则为文件内容 //i.get();
 	 * //参数值（返回字节数组），如果是上传文件，则为文件内容 //i.getInputStream();//上传文件内容 //i.getSize();
 	 * //参数值的字节大小 //i.getName(); //上传文件的文件名 //i.getContentType(); //上传文件的内容类型
-	 * if(!i.isFormField()&&i.getSize()>0) //简单参数返回true，文件返回false { ServletContext
-	 * servletContext = request.getSession().getServletContext();
-	 * //2.调用realPath方法，获取根据一个虚拟目录得到的真实目录 String realPath =
-	 * servletContext.getRealPath("/WEB-INF/file"); //3.如果这个真实的目录不存在，需要创建 File file
-	 * = new File(realPath ); if(!file.exists()){ file.mkdirs(); }
-	 * myfile.renameTo(new File(file,myfileFileName)); } } }
+	 * if(!i.isFormField()&&i.getSize()>0) {//文件 ServletContext servletContext =
+	 * request.getSession().getServletContext(); //2.调用realPath方法，获取根据一个虚拟目录得到的真实目录
+	 * String realPath = servletContext.getRealPath("/WEB-INF/file");
+	 * //3.如果这个真实的目录不存在，需要创建 File file = new File(realPath ); if(!file.exists()){
+	 * file.mkdirs(); } i.write(new File(realPath + "/" + i.getName())); }else {
+	 * formFields.put(i.getFieldName(), i.getString()); } } }catch(Exception e) {
+	 * e.printStackTrace(); } }
 	 * 
 	 * 
 	 * //第二步 发网络请求或发数据库请求
@@ -147,7 +147,7 @@ public class TbQuestionListServlet extends HttpServlet {
 		}
 		String pageSize = request.getParameter("pageSize");
 		if (StringUtils.isBlank(pageSize)) {
-			pageSize = "2";
+			pageSize = "10";
 			request.setAttribute("pageSize", pageSize);
 		}
 		String nextPagePara = "";
@@ -161,62 +161,62 @@ public class TbQuestionListServlet extends HttpServlet {
 			paraMap.put("question_id", Integer.valueOf(question_id));
 			nextPagePara += "question_id=" + question_id + "%26";
 		}
-//		String question_msg = request.getParameter("question_msg");
-//		if (StringUtils.isBlank(question_msg)) {
-//			// return;
-//		} else {
-//			paraMap.put("question_msg", question_msg);
-//			nextPagePara += "question_msg=" + question_msg + "%26";
-//		}
-//		String question_img = request.getParameter("question_img");
-//		if (StringUtils.isBlank(question_img)) {
-//			// return;
-//		} else {
-//			paraMap.put("question_img", question_img);
-//			nextPagePara += "question_img=" + question_img + "%26";
-//		}
-//		String question_answers = request.getParameter("question_answers");
-//		if (StringUtils.isBlank(question_answers)) {
-//			// return;
-//		} else {
-//			paraMap.put("question_answers", question_answers);
-//			nextPagePara += "question_answers=" + question_answers + "%26";
-//		}
-//		String question_true_answer = request.getParameter("question_true_answer");
-//		if (StringUtils.isBlank(question_true_answer)) {
-//			// return;
-//		} else {
-//			paraMap.put("question_true_answer", question_true_answer);
-//			nextPagePara += "question_true_answer=" + question_true_answer + "%26";
-//		}
-//		String question_score = request.getParameter("question_score");
-//		if (StringUtils.isBlank(question_score)) {
-//			// return;
-//		} else {
-//			paraMap.put("question_score", Integer.valueOf(question_score));
-//			nextPagePara += "question_score=" + question_score + "%26";
-//		}
-//		String last_modify_tlr_id = request.getParameter("last_modify_tlr_id");
-//		if (StringUtils.isBlank(last_modify_tlr_id)) {
-//			// return;
-//		} else {
-//			paraMap.put("last_modify_tlr_id", last_modify_tlr_id);
-//			nextPagePara += "last_modify_tlr_id=" + last_modify_tlr_id + "%26";
-//		}
-//		String last_modify_prg_id = request.getParameter("last_modify_prg_id");
-//		if (StringUtils.isBlank(last_modify_prg_id)) {
-//			// return;
-//		} else {
-//			paraMap.put("last_modify_prg_id", last_modify_prg_id);
-//			nextPagePara += "last_modify_prg_id=" + last_modify_prg_id + "%26";
-//		}
-//		String last_modify_tm = request.getParameter("last_modify_tm");
-//		if (StringUtils.isBlank(last_modify_tm)) {
-//			// return;
-//		} else {
-//			paraMap.put("last_modify_tm", last_modify_tm);
-//			nextPagePara += "last_modify_tm=" + last_modify_tm + "%26";
-//		}
+		String question_msg = request.getParameter("question_msg");
+		if (StringUtils.isBlank(question_msg)) {
+			// return;
+		} else {
+			paraMap.put("question_msg", question_msg);
+			nextPagePara += "question_msg=" + question_msg + "%26";
+		}
+		String question_img = request.getParameter("question_img");
+		if (StringUtils.isBlank(question_img)) {
+			// return;
+		} else {
+			paraMap.put("question_img", question_img);
+			nextPagePara += "question_img=" + question_img + "%26";
+		}
+		String question_answers = request.getParameter("question_answers");
+		if (StringUtils.isBlank(question_answers)) {
+			// return;
+		} else {
+			paraMap.put("question_answers", question_answers);
+			nextPagePara += "question_answers=" + question_answers + "%26";
+		}
+		String question_true_answer = request.getParameter("question_true_answer");
+		if (StringUtils.isBlank(question_true_answer)) {
+			// return;
+		} else {
+			paraMap.put("question_true_answer", question_true_answer);
+			nextPagePara += "question_true_answer=" + question_true_answer + "%26";
+		}
+		String question_score = request.getParameter("question_score");
+		if (StringUtils.isBlank(question_score)) {
+			// return;
+		} else {
+			paraMap.put("question_score", Integer.valueOf(question_score));
+			nextPagePara += "question_score=" + question_score + "%26";
+		}
+		String last_modify_tlr_id = request.getParameter("last_modify_tlr_id");
+		if (StringUtils.isBlank(last_modify_tlr_id)) {
+			// return;
+		} else {
+			paraMap.put("last_modify_tlr_id", last_modify_tlr_id);
+			nextPagePara += "last_modify_tlr_id=" + last_modify_tlr_id + "%26";
+		}
+		String last_modify_prg_id = request.getParameter("last_modify_prg_id");
+		if (StringUtils.isBlank(last_modify_prg_id)) {
+			// return;
+		} else {
+			paraMap.put("last_modify_prg_id", last_modify_prg_id);
+			nextPagePara += "last_modify_prg_id=" + last_modify_prg_id + "%26";
+		}
+		String last_modify_tm = request.getParameter("last_modify_tm");
+		if (StringUtils.isBlank(last_modify_tm)) {
+			// return;
+		} else {
+			paraMap.put("last_modify_tm", last_modify_tm);
+			nextPagePara += "last_modify_tm=" + last_modify_tm + "%26";
+		}
 		TbQuestionListService tbQuestionListService = new TbQuestionListServiceImpl();
 		List<TbQuestionListBean> tbquestionlistBeans = null;
 		try {
@@ -235,7 +235,8 @@ public class TbQuestionListServlet extends HttpServlet {
 
 		String pageString = PaginationUtil.getPaginationHtml(Integer.valueOf(count), Integer.valueOf(pageSize),
 				Integer.valueOf(pageNo), Integer.valueOf(2), Integer.valueOf(5),
-				"javascript:getAll('TbQuestionListServlet?method=list%26"+nextPagePara+"pageNo=", true);
+				"javascript:getAll('TbQuestionListServlet?method=list%26" + nextPagePara + "pageNo=" + pageNo + "",
+				true);
 		pageString = pageString.replace(".html", "");
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("list", tbquestionlistBeans);
@@ -255,6 +256,13 @@ public class TbQuestionListServlet extends HttpServlet {
 	// 跳到修改页
 	public void toUpdate(HttpServletRequest request, HttpServletResponse response) {
 		// 选择器数据
+
+		// 题目分数(选择)
+		List question_scorelist = new ArrayList();
+		// for(int i=0;i<list.size();i++)
+		// {
+		// }
+		request.setAttribute("question_scoreSelectList", question_scorelist);
 		// 页面数据
 		Map paraMap = new HashMap();
 		String question_id = request.getParameter("question_id");
@@ -300,56 +308,102 @@ public class TbQuestionListServlet extends HttpServlet {
 	}
 
 	public void doUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Map formFields = new HashMap();
+		// 文件上传取值 form表单提交的数据 method="post" enctype="multipart/form-data"
+		if (ServletFileUpload.isMultipartContent(request)) {
+			try {
+				FileItemFactory factory = new DiskFileItemFactory();
+				ServletFileUpload upload = new ServletFileUpload(factory);
+				List<FileItem> items = upload.parseRequest(request);
+				for (FileItem i : items) {
+					/*
+					 * //i.getFieldName(); //参数名 //i.getString(); //参数值（返回字符串），如果是上传文件，则为文件内容
+					 * //i.get(); //参数值（返回字节数组），如果是上传文件，则为文件内容 //i.getInputStream();//上传文件内容
+					 * //i.getSize(); //参数值的字节大小 //i.getName(); //上传文件的文件名 //i.getContentType();
+					 * //上传文件的内容类型
+					 */if (!i.isFormField() && i.getSize() > 0) {// 文件
+						ServletContext servletContext = request.getSession().getServletContext();
+						// 2.调用realPath方法，获取根据一个虚拟目录得到的真实目录
+						String realPath = servletContext.getRealPath("/WEB-INF/file");
+						// 3.如果这个真实的目录不存在，需要创建
+						File file = new File(realPath);
+						if (!file.exists()) {
+							file.mkdirs();
+						}
+						i.write(new File(realPath + "/" + i.getName()));
+					} else {
+						formFields.put(i.getFieldName(), i.getString());
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		TbQuestionListBean tbQuestionListBean = new TbQuestionListBean();
-		String question_id = request.getParameter("question_id");
+		String question_id = request.getParameter("question_id") == null ? (String) formFields.get("question_id")
+				: request.getParameter("question_id");
 		if (StringUtils.isBlank(question_id)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionId(Integer.valueOf(question_id));
 		}
-		String question_msg = request.getParameter("question_msg");
+		String question_msg = request.getParameter("question_msg") == null ? (String) formFields.get("question_msg")
+				: request.getParameter("question_msg");
 		if (StringUtils.isBlank(question_msg)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionMsg(question_msg);
 		}
-		String question_img = request.getParameter("question_img");
+		String question_img = request.getParameter("question_img") == null ? (String) formFields.get("question_img")
+				: request.getParameter("question_img");
 		if (StringUtils.isBlank(question_img)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionImg(question_img);
 		}
-		String question_answers = request.getParameter("question_answers");
+		String question_answers = request.getParameter("question_answers") == null
+				? (String) formFields.get("question_answers")
+				: request.getParameter("question_answers");
 		if (StringUtils.isBlank(question_answers)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionAnswers(question_answers);
 		}
-		String question_true_answer = request.getParameter("question_true_answer");
+		String question_true_answer = request.getParameter("question_true_answer") == null
+				? (String) formFields.get("question_true_answer")
+				: request.getParameter("question_true_answer");
 		if (StringUtils.isBlank(question_true_answer)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionTrueAnswer(question_true_answer);
 		}
-		String question_score = request.getParameter("question_score");
+		String question_score = request.getParameter("question_score") == null
+				? (String) formFields.get("question_score")
+				: request.getParameter("question_score");
 		if (StringUtils.isBlank(question_score)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionScore(Integer.valueOf(question_score));
 		}
-		String last_modify_tlr_id = request.getParameter("last_modify_tlr_id");
+		String last_modify_tlr_id = request.getParameter("last_modify_tlr_id") == null
+				? (String) formFields.get("last_modify_tlr_id")
+				: request.getParameter("last_modify_tlr_id");
 		if (StringUtils.isBlank(last_modify_tlr_id)) {
 			// return;
 		} else {
 			tbQuestionListBean.setLastModifyTlrId(last_modify_tlr_id);
 		}
-		String last_modify_prg_id = request.getParameter("last_modify_prg_id");
+		String last_modify_prg_id = request.getParameter("last_modify_prg_id") == null
+				? (String) formFields.get("last_modify_prg_id")
+				: request.getParameter("last_modify_prg_id");
 		if (StringUtils.isBlank(last_modify_prg_id)) {
 			// return;
 		} else {
 			tbQuestionListBean.setLastModifyPrgId(last_modify_prg_id);
 		}
-		String last_modify_tm = request.getParameter("last_modify_tm");
+		String last_modify_tm = request.getParameter("last_modify_tm") == null
+				? (String) formFields.get("last_modify_tm")
+				: request.getParameter("last_modify_tm");
 		if (StringUtils.isBlank(last_modify_tm)) {
 			// return;
 		} else {
@@ -376,6 +430,13 @@ public class TbQuestionListServlet extends HttpServlet {
 	// 跳到新增页
 	public void toAdd(HttpServletRequest request, HttpServletResponse response) {
 		// 选择器数据
+
+		// 题目分数(选择)
+		List question_scorelist = new ArrayList();
+		// for(int i=0;i<list.size();i++)
+		// {
+		// }
+		request.setAttribute("question_scoreSelectList", question_scorelist);
 		// 页面数据
 		Map paraMap = new HashMap();
 		String question_id = request.getParameter("question_id");
@@ -398,56 +459,112 @@ public class TbQuestionListServlet extends HttpServlet {
 	}
 
 	public void doAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Map formFields = new HashMap();
+		// 文件上传取值 form表单提交的数据 method="post" enctype="multipart/form-data"
+		if (ServletFileUpload.isMultipartContent(request)) {
+			try {
+				FileItemFactory factory = new DiskFileItemFactory();
+				ServletFileUpload upload = new ServletFileUpload(factory);
+				List<FileItem> items = upload.parseRequest(request);
+				for (FileItem i : items) {
+					/*
+					 * //i.getFieldName(); //参数名 //i.getString(); //参数值（返回字符串），如果是上传文件，则为文件内容
+					 * //i.get(); //参数值（返回字节数组），如果是上传文件，则为文件内容 //i.getInputStream();//上传文件内容
+					 * //i.getSize(); //参数值的字节大小 //i.getName(); //上传文件的文件名 //i.getContentType();
+					 * //上传文件的内容类型
+					 */if (!i.isFormField() && i.getSize() > 0) {// 文件
+						ServletContext servletContext = request.getSession().getServletContext();
+						// 2.调用realPath方法，获取根据一个虚拟目录得到的真实目录
+						String realPath = servletContext.getRealPath("/WEB-INF/file");
+						// 3.如果这个真实的目录不存在，需要创建
+						File file = new File(realPath);
+						if (!file.exists()) {
+							file.mkdirs();
+						}
+						i.write(new File(realPath + "/" + i.getName()));
+					} else {
+						formFields.put(i.getFieldName(), i.getString());
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		Map paraMap = new HashMap();
+		paraMap.put("columnName", "");
+		TbQuestionListService tbQuestionListServiceForMax = new TbQuestionListServiceImpl();
+		int max = 0;
+		try {
+			max = tbQuestionListServiceForMax.getMax(paraMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		TbQuestionListBean tbQuestionListBean = new TbQuestionListBean();
-		String question_id = request.getParameter("question_id");
+		String question_id = request.getParameter("question_id") == null ? (String) formFields.get("question_id")
+				: request.getParameter("question_id");
 		if (StringUtils.isBlank(question_id)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionId(Integer.valueOf(question_id));
 		}
-		String question_msg = request.getParameter("question_msg");
+		String question_msg = request.getParameter("question_msg") == null ? (String) formFields.get("question_msg")
+				: request.getParameter("question_msg");
 		if (StringUtils.isBlank(question_msg)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionMsg(question_msg);
 		}
-		String question_img = request.getParameter("question_img");
+		String question_img = request.getParameter("question_img") == null ? (String) formFields.get("question_img")
+				: request.getParameter("question_img");
 		if (StringUtils.isBlank(question_img)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionImg(question_img);
 		}
-		String question_answers = request.getParameter("question_answers");
+		String question_answers = request.getParameter("question_answers") == null
+				? (String) formFields.get("question_answers")
+				: request.getParameter("question_answers");
 		if (StringUtils.isBlank(question_answers)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionAnswers(question_answers);
 		}
-		String question_true_answer = request.getParameter("question_true_answer");
+		String question_true_answer = request.getParameter("question_true_answer") == null
+				? (String) formFields.get("question_true_answer")
+				: request.getParameter("question_true_answer");
 		if (StringUtils.isBlank(question_true_answer)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionTrueAnswer(question_true_answer);
 		}
-		String question_score = request.getParameter("question_score");
+		String question_score = request.getParameter("question_score") == null
+				? (String) formFields.get("question_score")
+				: request.getParameter("question_score");
 		if (StringUtils.isBlank(question_score)) {
 			// return;
 		} else {
 			tbQuestionListBean.setQuestionScore(Integer.valueOf(question_score));
 		}
-		String last_modify_tlr_id = request.getParameter("last_modify_tlr_id");
+		String last_modify_tlr_id = request.getParameter("last_modify_tlr_id") == null
+				? (String) formFields.get("last_modify_tlr_id")
+				: request.getParameter("last_modify_tlr_id");
 		if (StringUtils.isBlank(last_modify_tlr_id)) {
 			// return;
 		} else {
 			tbQuestionListBean.setLastModifyTlrId(last_modify_tlr_id);
 		}
-		String last_modify_prg_id = request.getParameter("last_modify_prg_id");
+		String last_modify_prg_id = request.getParameter("last_modify_prg_id") == null
+				? (String) formFields.get("last_modify_prg_id")
+				: request.getParameter("last_modify_prg_id");
 		if (StringUtils.isBlank(last_modify_prg_id)) {
 			// return;
 		} else {
 			tbQuestionListBean.setLastModifyPrgId(last_modify_prg_id);
 		}
-		String last_modify_tm = request.getParameter("last_modify_tm");
+		String last_modify_tm = request.getParameter("last_modify_tm") == null
+				? (String) formFields.get("last_modify_tm")
+				: request.getParameter("last_modify_tm");
 		if (StringUtils.isBlank(last_modify_tm)) {
 			// return;
 		} else {

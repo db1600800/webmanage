@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tt.TbQuestionListMapper">
-
 	<!-- oracle 分页 -->
 	<sql id="Oracle_Pagination_Head">
 		<if test="currIndex!=null and pageSize!=null">
             <![CDATA[select y.* from(select z.*,rownum as rn from (]]>
 		</if>
 	</sql>
-
 	<sql id="Oracle_Pagination_Tail">
 		<if test="currIndex != null and pageSize != null">
             <![CDATA[ ) z where rownum <= #{pageSize}+#{currIndex} ) y where y.rn > #{currIndex} ]]>
 		</if>
 	</sql>
 	<!-- end oracle 分页 -->
-
 	<!-- mysql 分页 -->
 	<sql id="MySql_Pagination_Head">
 	</sql>
@@ -25,90 +22,114 @@
 		</if>
 	</sql>
 	<!-- end mysql 分页 -->
-	
-	
-
 	<resultMap id="TbQuestionListResultMap" type="com.tt.TbQuestionListBean">
 	</resultMap>
-	<select id="TbQuestionListSelect" resultMap="TbQuestionListResultMap">
-	  <include refid="Oracle_Pagination_Head" />
-		 select * from t_tb_question_list
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="question_id!= null ">
-				t_tb_question_list.question_id= #{question_id}
-			</if>
-			<if test="question_msg!= null ">
-				and t_tb_question_list.question_msg= #{question_msg}
-			</if>
-			<if test="question_img!= null ">
-				and t_tb_question_list.question_img= #{question_img}
-			</if>
-			<if test="question_answers!= null ">
-				and t_tb_question_list.question_answers=
-				#{question_answers}
-			</if>
-			<if test="question_true_answer!= null ">
-				and t_tb_question_list.question_true_answer=
-				#{question_true_answer}
-			</if>
-			<if test="question_score!= null ">
-				and t_tb_question_list.question_score= #{question_score}
-			</if>
-			<if test="last_modify_tlr_id!= null ">
-				and t_tb_question_list.last_modify_tlr_id=
-				#{last_modify_tlr_id}
-			</if>
-			<if test="last_modify_prg_id!= null ">
-				and t_tb_question_list.last_modify_prg_id=
-				#{last_modify_prg_id}
-			</if>
-			<if test="last_modify_tm!= null ">
-				and t_tb_question_list.last_modify_tm= #{last_modify_tm}
-			</if>
-		</trim>
-		<include refid="Oracle_Pagination_Tail" />
-		</select>
-	<select id="TbQuestionListSelectCount" resultType="java.lang.Integer">
-		select count(*) from t_tb_question_list
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="question_id!= null ">
-				t_tb_question_list.question_id= #{question_id}
-			</if>
-			<if test="question_msg!= null ">
-				and t_tb_question_list.question_msg= #{question_msg}
-			</if>
-			<if test="question_img!= null ">
-				and t_tb_question_list.question_img= #{question_img}
-			</if>
-			<if test="question_answers!= null ">
-				and t_tb_question_list.question_answers=
-				#{question_answers}
-			</if>
-			<if test="question_true_answer!= null ">
-				and t_tb_question_list.question_true_answer=
-				#{question_true_answer}
-			</if>
-			<if test="question_score!= null ">
-				and t_tb_question_list.question_score= #{question_score}
-			</if>
-			<if test="last_modify_tlr_id!= null ">
-				and t_tb_question_list.last_modify_tlr_id=
-				#{last_modify_tlr_id}
-			</if>
-			<if test="last_modify_prg_id!= null ">
-				and t_tb_question_list.last_modify_prg_id=
-				#{last_modify_prg_id}
-			</if>
-			<if test="last_modify_tm!= null ">
-				and t_tb_question_list.last_modify_tm= #{last_modify_tm}
-			</if>
 
-		</trim>
+	<select id="TbQuestionListSelect" resultMap="TbQuestionListResultMap" >
+	 <include refid="Oracle_Pagination_Head" />
+select * from t_tb_question_list 
+<trim prefix="WHERE" prefixOverrides="AND |OR ">
+ 		<if test="question_id!= null ">
+ t_tb_question_list.question_id= #{question_id}
+		</if>
+		<if test="question_msg!= null ">
+ and t_tb_question_list.question_msg= #{question_msg}
+		</if>
+		<if test="question_img!= null ">
+ and t_tb_question_list.question_img= #{question_img}
+		</if>
+		<if test="question_answers!= null ">
+ and t_tb_question_list.question_answers= #{question_answers}
+		</if>
+		<if test="question_true_answer!= null ">
+ and t_tb_question_list.question_true_answer= #{question_true_answer}
+		</if>
+		<if test="question_score!= null ">
+ and t_tb_question_list.question_score= #{question_score}
+		</if>
+		<if test="last_modify_tlr_id!= null ">
+ and t_tb_question_list.last_modify_tlr_id= #{last_modify_tlr_id}
+		</if>
+		<if test="last_modify_prg_id!= null ">
+ and t_tb_question_list.last_modify_prg_id= #{last_modify_prg_id}
+		</if>
+		<if test="last_modify_tm!= null ">
+ and t_tb_question_list.last_modify_tm= #{last_modify_tm}
+		</if>
+
+</trim>
+ <include refid="Oracle_Pagination_Tail" />
+	</select>
+	<select id="TbQuestionListSelectCount" resultType="java.lang.Integer" >
+select count(*) from t_tb_question_list 
+<trim prefix="WHERE" prefixOverrides="AND |OR ">
+ 		<if test="question_id!= null ">
+ t_tb_question_list.question_id= #{question_id}
+		</if>
+		<if test="question_msg!= null ">
+ and t_tb_question_list.question_msg= #{question_msg}
+		</if>
+		<if test="question_img!= null ">
+ and t_tb_question_list.question_img= #{question_img}
+		</if>
+		<if test="question_answers!= null ">
+ and t_tb_question_list.question_answers= #{question_answers}
+		</if>
+		<if test="question_true_answer!= null ">
+ and t_tb_question_list.question_true_answer= #{question_true_answer}
+		</if>
+		<if test="question_score!= null ">
+ and t_tb_question_list.question_score= #{question_score}
+		</if>
+		<if test="last_modify_tlr_id!= null ">
+ and t_tb_question_list.last_modify_tlr_id= #{last_modify_tlr_id}
+		</if>
+		<if test="last_modify_prg_id!= null ">
+ and t_tb_question_list.last_modify_prg_id= #{last_modify_prg_id}
+		</if>
+		<if test="last_modify_tm!= null ">
+ and t_tb_question_list.last_modify_tm= #{last_modify_tm}
+		</if>
+
+</trim>
+	</select>
+	<select id="TbQuestionListSelectMax" resultType="java.lang.Integer" >
+select max(${columnName}) from t_tb_question_list 
+<trim prefix="WHERE" prefixOverrides="AND |OR ">
+ 		<if test="question_id!= null ">
+ t_tb_question_list.question_id= #{question_id}
+		</if>
+		<if test="question_msg!= null ">
+ and t_tb_question_list.question_msg= #{question_msg}
+		</if>
+		<if test="question_img!= null ">
+ and t_tb_question_list.question_img= #{question_img}
+		</if>
+		<if test="question_answers!= null ">
+ and t_tb_question_list.question_answers= #{question_answers}
+		</if>
+		<if test="question_true_answer!= null ">
+ and t_tb_question_list.question_true_answer= #{question_true_answer}
+		</if>
+		<if test="question_score!= null ">
+ and t_tb_question_list.question_score= #{question_score}
+		</if>
+		<if test="last_modify_tlr_id!= null ">
+ and t_tb_question_list.last_modify_tlr_id= #{last_modify_tlr_id}
+		</if>
+		<if test="last_modify_prg_id!= null ">
+ and t_tb_question_list.last_modify_prg_id= #{last_modify_prg_id}
+		</if>
+		<if test="last_modify_tm!= null ">
+ and t_tb_question_list.last_modify_tm= #{last_modify_tm}
+		</if>
+
+</trim>
 	</select>
 
 
 	<insert id="TbQuestionListInsert" parameterType="com.tt.TbQuestionListBean">
-		insert into t_tb_question_list
+		insert into t_tb_question_list 
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="question_id != null">
 				question_id,
@@ -170,12 +191,12 @@
 	</insert>
 
 	<delete id="TbQuestionListDelete" parameterType="com.tt.TbQuestionListBean">
-		delete from t_tb_question_list where
-		<trim suffix="" suffixOverrides="and">
+		delete from t_tb_question_list		where 
+<trim  suffix="" suffixOverrides="and">
 			<if test="question_id != null">
-				question_id=#{question_id,jdbcType=INTEGER} and
+				question_id=#{question_id,jdbcType=INTEGER} and 
 			</if>
-		</trim>
+</trim>
 	</delete>
 
 	<update id="TbQuestionListUpdate" parameterType="com.tt.TbQuestionListBean">
@@ -206,12 +227,12 @@
 				last_modify_tm=#{last_modify_tm,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where
-		<trim suffix="" suffixOverrides="and">
+		where 
+<trim  suffix="" suffixOverrides="and">
 			<if test="question_id != null">
-				question_id=#{question_id,jdbcType=INTEGER} and
+				question_id=#{question_id,jdbcType=INTEGER} and 
 			</if>
-		</trim>
+</trim>
 	</update>
 </mapper>
 
