@@ -61,8 +61,8 @@ $(document).on('ready', function() {
 		if(question_id=="" || !/^\d+$/.test(question_id)){  
 	        alert("题目id必须是正整数!"); 
 	        return false;
-	    }  
-		 */
+	    }   */
+		
 		if ($("#question_msg").val() == "") {
 			alert("请输入题目内容(编辑)！");
 			return false;
@@ -79,15 +79,15 @@ $(document).on('ready', function() {
 			alert("请输入题目标准答案！");
 			return false;
 		}
-		/* if ($("#question_score").val() == "") {
+		if ($("#question_score").val() == "") {
 			alert("请输入题目分数(选择)！");
 			return false;
-		} */
-	/* 	var question_score=$('#question_score').val();
+		}
+		var question_score=$('#question_score').val();
 		if(question_score=="" || !/^\d+$/.test(question_score)){  
 	        alert("题目分数(选择)必须是正整数!"); 
 	        return false;
-	    }   */
+	    }  
 		
 		if ($("#last_modify_tlr_id").val() == "") {
 			alert("请输入最后更新操作员！");
@@ -130,7 +130,7 @@ $(document).on('ready', function() {
 						<td align="right" style="width: 120px">题目图片：
 						</td>
 						<td>
-							<input type="file" id="file1" name="file1"  />
+							<input type="file" id="question_img" name="question_img"  />
 								
 						</td>
 						

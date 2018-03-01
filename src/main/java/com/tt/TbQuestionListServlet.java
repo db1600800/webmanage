@@ -1,4 +1,5 @@
 package com.tt;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -75,7 +76,7 @@ public class TbQuestionListServlet extends HttpServlet {
 	 * = request.getParameter("method"); //参数用html里name=""的值
 	 * 
 	 * 
-	 * //取值 form表单提交的数据 method="post" enctype="multipart/form-data"
+	 * //文件上传及其它取值 form表单提交的数据 method="post" enctype="multipart/form-data"
 	 * if(ServletFileUpload.isMultipartContent(request)) { try { FileItemFactory
 	 * factory = new DiskFileItemFactory(); ServletFileUpload upload = new
 	 * ServletFileUpload(factory); List<FileItem> items =
@@ -85,7 +86,7 @@ public class TbQuestionListServlet extends HttpServlet {
 	 * //参数值的字节大小 //i.getName(); //上传文件的文件名 //i.getContentType(); //上传文件的内容类型
 	 * if(!i.isFormField()&&i.getSize()>0) {//文件 ServletContext servletContext =
 	 * request.getSession().getServletContext(); //2.调用realPath方法，获取根据一个虚拟目录得到的真实目录
-	 * String realPath = servletContext.getRealPath("/WEB-INF/file");
+	 * String realPath = servletContext.getRealPath("/uploadfile");
 	 * //3.如果这个真实的目录不存在，需要创建 File file = new File(realPath ); if(!file.exists()){
 	 * file.mkdirs(); } i.write(new File(realPath + "/" + i.getName())); }else {
 	 * formFields.put(i.getFieldName(), i.getString()); } } }catch(Exception e) {
@@ -262,6 +263,7 @@ public class TbQuestionListServlet extends HttpServlet {
 		// for(int i=0;i<list.size();i++)
 		// {
 		// }
+		question_scorelist.add("5-5");
 		request.setAttribute("question_scoreSelectList", question_scorelist);
 		// 页面数据
 		Map paraMap = new HashMap();
@@ -324,13 +326,14 @@ public class TbQuestionListServlet extends HttpServlet {
 					 */if (!i.isFormField() && i.getSize() > 0) {// 文件
 						ServletContext servletContext = request.getSession().getServletContext();
 						// 2.调用realPath方法，获取根据一个虚拟目录得到的真实目录
-						String realPath = servletContext.getRealPath("/WEB-INF/file");
+						String realPath = servletContext.getRealPath("/uploadfile");
 						// 3.如果这个真实的目录不存在，需要创建
 						File file = new File(realPath);
 						if (!file.exists()) {
 							file.mkdirs();
 						}
 						i.write(new File(realPath + "/" + i.getName()));
+						formFields.put(i.getFieldName(), "/uploadfile/" + i.getName());
 					} else {
 						formFields.put(i.getFieldName(), i.getString());
 					}
@@ -415,12 +418,8 @@ public class TbQuestionListServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/tbquestionlist.jsp");// 本域 跳转后浏览器地址栏不会变化。
 		try {
-			dispatcher.forward(request, response);
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			response.sendRedirect("TbQuestionListServlet?method=index");// 通过get方法传递数据到下个页面(本域名下页面或跨域页面) 跳转后浏览器地址栏变化
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -436,6 +435,7 @@ public class TbQuestionListServlet extends HttpServlet {
 		// for(int i=0;i<list.size();i++)
 		// {
 		// }
+		question_scorelist.add("5-5");
 		request.setAttribute("question_scoreSelectList", question_scorelist);
 		// 页面数据
 		Map paraMap = new HashMap();
@@ -475,13 +475,14 @@ public class TbQuestionListServlet extends HttpServlet {
 					 */if (!i.isFormField() && i.getSize() > 0) {// 文件
 						ServletContext servletContext = request.getSession().getServletContext();
 						// 2.调用realPath方法，获取根据一个虚拟目录得到的真实目录
-						String realPath = servletContext.getRealPath("/WEB-INF/file");
+						String realPath = servletContext.getRealPath("/uploadfile");
 						// 3.如果这个真实的目录不存在，需要创建
 						File file = new File(realPath);
 						if (!file.exists()) {
 							file.mkdirs();
 						}
 						i.write(new File(realPath + "/" + i.getName()));
+						formFields.put(i.getFieldName(), "/uploadfile/" + i.getName());
 					} else {
 						formFields.put(i.getFieldName(), i.getString());
 					}
@@ -491,7 +492,7 @@ public class TbQuestionListServlet extends HttpServlet {
 			}
 		}
 		Map paraMap = new HashMap();
-		paraMap.put("columnName", "");
+		paraMap.put("columnName", "question_id");
 		TbQuestionListService tbQuestionListServiceForMax = new TbQuestionListServiceImpl();
 		int max = 0;
 		try {
@@ -501,8 +502,7 @@ public class TbQuestionListServlet extends HttpServlet {
 		}
 
 		TbQuestionListBean tbQuestionListBean = new TbQuestionListBean();
-		String question_id = request.getParameter("question_id") == null ? (String) formFields.get("question_id")
-				: request.getParameter("question_id");
+		String question_id = max+1+"";//request.getParameter("question_id") == null ? (String) formFields.get("question_id"): request.getParameter("question_id");
 		if (StringUtils.isBlank(question_id)) {
 			// return;
 		} else {
@@ -576,12 +576,8 @@ public class TbQuestionListServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/tbquestionlist.jsp");// 本域 跳转后浏览器地址栏不会变化。
 		try {
-			dispatcher.forward(request, response);
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			response.sendRedirect("TbQuestionListServlet?method=index");// 通过get方法传递数据到下个页面(本域名下页面或跨域页面) 跳转后浏览器地址栏变化
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

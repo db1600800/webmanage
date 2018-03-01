@@ -133,11 +133,11 @@ state:stateSelect
 	        <table id="newtable" width="100%">
 	          <thead class=trhead id="tblHeader">
 	            
-				<tr> 				<th  style="text-align:center;">题目内容</th>
+				<tr> 				<th  style="text-align:center;">题目内容(编辑)</th>
 				<th  style="text-align:center;">题目图片</th>
-				<th  style="text-align:center;">题目可选答案</th>
+				<th  style="text-align:center;">题目可选答案(编辑)</th>
 				<th  style="text-align:center;">题目标准答案</th>
-				<th  style="text-align:center;">题目分数</th>
+				<th  style="text-align:center;">题目分数(选择)</th>
 				<th  style="text-align:center;">最后更新操作员</th>
 				<th  style="text-align:center;">最后更新程序</th>
 				<th  style="text-align:center;">最后更新时间</th>

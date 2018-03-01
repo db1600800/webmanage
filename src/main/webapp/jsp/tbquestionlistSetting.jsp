@@ -47,23 +47,23 @@ items : [
 });
 $(document).on('ready', function() {
 	
-	var question_id='${question_id}';
+	var question_id='${entity.question_id}';
 	$("#question_id").val(question_id);
-	var question_msg='${question_msg}';
+	var question_msg='${entity.question_msg}';
 	$("#question_msg").val(question_msg);
-	var question_img='${question_img}';
+	var question_img='${entity.question_img}';
 	$("#question_img").val(question_img);
-	var question_answers='${question_answers}';
+	var question_answers='${entity.question_answers}';
 	$("#question_answers").val(question_answers);
-	var question_true_answer='${question_true_answer}';
+	var question_true_answer='${entity.question_true_answer}';
 	$("#question_true_answer").val(question_true_answer);
-	var question_score='${question_score}';
+	var question_score='${entity.question_score}';
 	$("#question_score").val(question_score);
-	var last_modify_tlr_id='${last_modify_tlr_id}';
+	var last_modify_tlr_id='${entity.last_modify_tlr_id}';
 	$("#last_modify_tlr_id").val(last_modify_tlr_id);
-	var last_modify_prg_id='${last_modify_prg_id}';
+	var last_modify_prg_id='${entity.last_modify_prg_id}';
 	$("#last_modify_prg_id").val(last_modify_prg_id);
-	var last_modify_tm='${last_modify_tm}';
+	var last_modify_tm='${entity.last_modify_tm}';
 	$("#last_modify_tm").val(last_modify_tm);
 	
 });
@@ -75,7 +75,7 @@ $(document).on('ready', function() {
 		}
 		var question_id=$('#question_id').val();
 		if(question_id=="" || !/^\d+$/.test(question_id)){  
-	        alert("必须是正整数!"); 
+	        alert("题目id必须是正整数!"); 
 	        return false;
 	    }  
 		
@@ -101,7 +101,7 @@ $(document).on('ready', function() {
 		}
 		var question_score=$('#question_score').val();
 		if(question_score=="" || !/^\d+$/.test(question_score)){  
-	        alert("必须是正整数!"); 
+	        alert("题目分数(选择)必须是正整数!"); 
 	        return false;
 	    }  
 		
@@ -117,6 +117,14 @@ $(document).on('ready', function() {
 			alert("请输入最后更新时间！");
 			return false;
 		}
+		 if(question_msgEditor.count('text')>2000){
+            alert('题目内容(编辑)字数超过限制');
+             return;
+         }
+		 if(question_answersEditor.count('text')>2000){
+            alert('题目可选答案(编辑)字数超过限制');
+             return;
+         }
 		 myForm.submit();
 	}
 	 
@@ -140,19 +148,19 @@ var resultFile = document.getElementById(file_id).files[0];
 	<div class="table_form lr10">
 		<table width="100%" cellspacing="0" cellpadding="0">
 			<tbody>
-<input type="hidden" id="question_id" name="question_id" value="${question_id}" />
+<input type="hidden" id="question_id" name="question_id" value="${entity.question_id}" />
 	<tr>
 					<td align="right" style="width: 120px">题目内容(编辑)：</td>
 						<td><textarea type="text" style="width:400px;height:50px;"
-							id="question_msg" name="question_msg" >${question_msg}</textarea></td>
+							id="question_msg" name="question_msg" >${entity.question_msg}</textarea></td>
 				</tr>
 					<tr >
 						<td align="right" style="width: 120px">题目图片：
 						</td>
 						<td>
-						<img id="img1" src=".${question_img }" style="display: block;width:40px;height:30px"/>
-						    <input type="hidden" id="question_img" name="question_img"  value="${question_img }"/>
-							<input type="file" id="file1" name="file1"   onchange="showDataByURL('file1','img1')"/>
+						<img id="imgquestion_img" src="${pageContext.request.contextPath }${entity.question_img}" style="display: block;width:40px;height:30px"/>
+						    <input type="hidden" id="question_img" name="question_img"  value="${entity.question_img }"/>
+							<input type="file" id="question_img" name="question_img"   onchange="showDataByURL('question_img','imgquestion_img')"/>
 								
 						</td>
 						
@@ -160,12 +168,12 @@ var resultFile = document.getElementById(file_id).files[0];
 	<tr>
 					<td align="right" style="width: 120px">题目可选答案(编辑)：</td>
 						<td><textarea type="text" style="width:400px;height:50px;"
-							id="question_answers" name="question_answers" >${question_answers}</textarea></td>
+							id="question_answers" name="question_answers" >${entity.question_answers}</textarea></td>
 				</tr>
 				<tr>
 					<td align="right" style="width: 120px"><font color="red">*</font>题目标准答案：</td>
 					<td><input type="text" class="input-text wid400 bg"
-						id="question_true_answer" name="question_true_answer" value="${ question_true_answer}"/></td>
+						id="question_true_answer" name="question_true_answer" value="${entity.question_true_answer}"/></td>
 					
 				</tr>
 					<tr >
@@ -192,18 +200,18 @@ var resultFile = document.getElementById(file_id).files[0];
 				<tr>
 					<td align="right" style="width: 120px"><font color="red">*</font>最后更新操作员：</td>
 					<td><input type="text" class="input-text wid400 bg"
-						id="last_modify_tlr_id" name="last_modify_tlr_id" value="${ last_modify_tlr_id}"/></td>
+						id="last_modify_tlr_id" name="last_modify_tlr_id" value="${entity.last_modify_tlr_id}"/></td>
 					
 				</tr>
 				<tr>
 					<td align="right" style="width: 120px"><font color="red">*</font>最后更新程序：</td>
 					<td><input type="text" class="input-text wid400 bg"
-						id="last_modify_prg_id" name="last_modify_prg_id" value="${ last_modify_prg_id}"/></td>
+						id="last_modify_prg_id" name="last_modify_prg_id" value="${entity.last_modify_prg_id}"/></td>
 					
 				</tr>
 				<tr>
 					<td align="right" style="width: 120px"><font color="red">*</font>最后更新时间：</td>
-					<td><input id="last_modify_tm" name="last_modify_tm" value="${ last_modify_tm}" style="margin-right:10px;width: 150px" class="Wdate" 
+					<td><input id="last_modify_tm" name="last_modify_tm" value="${entity.last_modify_tm}" style="margin-right:10px;width: 150px" class="Wdate" 
 					 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})"/></td>
 				</tr>
 				<tr height="60px">
