@@ -4,6 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -52,21 +53,21 @@ question_id:mquestion_id
 			
 		}
 		function getAll(tzurl){
-var searchInput = $("#searchInput").val();
-		if(searchInput!="" ){  
-		if( !/^\d+$/.test(searchInput)){  
-	        alert("必须是正整数!"); 
+		var question_msg=$('#question_msg').val();
+		var question_img=$('#question_img').val();
+		var question_answers=$('#question_answers').val();
+		var question_true_answer=$('#question_true_answer').val();
+		var question_score=$('#question_score').val();
+		if(question_score!=""){  
+		if( !/^\d+$/.test(question_score)){  
+	        alert("题目分数(选择)必须是正整数!"); 
 	        return ;
 	    }  
 	    }  
 		
-var endTime=$("#endTime").val();
-var startTime=$("#endTime").val();
-		if($("#endTime").val()!="" &&$("#startTime").val()!="" && $("#startTime").val() > $("#endTime").val()){
-				alert("开始时间不能大于结束时间");
-				return ;
-		}
-var stateSelect=$("#stateSelect").val();
+		var last_modify_tlr_id=$('#last_modify_tlr_id').val();
+		var last_modify_prg_id=$('#last_modify_prg_id').val();
+		var last_modify_tm=$('#last_modify_tm').val();
 	
 
 			$.ajax({
@@ -74,11 +75,14 @@ var stateSelect=$("#stateSelect").val();
 					dataType:'json',
 					url:tzurl,
 					data:{
-question_id:searchInput,
- start:startTime,
-end:endTime,
-state:stateSelect
-					},
+question_msg:$("#question_msg").val(),
+question_img:$("#question_img").val(),
+question_answers:$("#question_answers").val(),
+question_true_answer:$("#question_true_answer").val(),
+question_score:$("#question_score").val(),
+last_modify_tlr_id:$("#last_modify_tlr_id").val(),
+last_modify_prg_id:$("#last_modify_prg_id").val(),
+last_modify_tm:$("#last_modify_tm").val()					},
 					success:function(result){
 	
 							var divtext = '';
@@ -110,19 +114,39 @@ state:stateSelect
 <body style="overflow:auto">
 	<div style="padding-left:20px;margin-bottom:10px;" >
 	<input type="hidden" id="question_id" name="question_id" value="" />
-	题目信息表：<input type="text" id="searchInput" style="margin-left:10px;width:100px;height:20px; "/>
-状态:
-<select id="stateSelect" name="stateSelect" class="form-control" >
-<option value="">请选择</option>
-<option value="开启">0</option>
-<option value="关闭">1</option>
+	题目信息表:
+<div>
+
+<font size="2" color="">题目内容(编辑):</font><input type="text" class="input-text wid400 bg" id="question_msg" name="question_msg" value="${ question_msg}"/>
+	
+<font size="2" color="">题目图片:</font>	<input type="file" id="question_img" name="question_img"  />
+
+<font size="2" color="">题目可选答案(编辑):</font><input type="text" class="input-text wid400 bg" id="question_answers" name="question_answers" value="${ question_answers}"/>
+
+<font size="2" color="">题目标准答案:</font><input type="text" class="input-text wid400 bg" id="question_true_answer" name="question_true_answer" value="${ question_true_answer}"/>
+	
+<font size="2" color="">题目分数(选择):</font><select id="question_score" name="question_score" class="form-control" style="width: 187px;height:23px;margin-bottom:0px;">
+				<option value="">请选择</option>
+					<c:forEach var="item" items="${question_scoreSelectList}">	
+							<option value='${fn:substringBefore(item,"-")}'>${fn:substringAfter(item,"-")}</option>
+					</c:forEach>
+					
 </select>
-	开始时间:<input id="startTime" name="startTime" value="" style="margin-right:10px;width: 150px" class="Wdate" 
-	 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})"/>
-	结束时间:<input id="endTime" name="endTime" value="" style="margin-right:10px;width: 150px" class="Wdate" 
-	 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})"/>
-	<input type="button" value="查询" name = "btn_search" onmouseover="this.style.cursor='hand'" style="width:50px;height:20px;font-size:12px;" class="subBtn" onclick="search()">
-	<input type="button" value="新增" name = "btn_search" onmouseover="this.style.cursor='hand'" style="width:50px;height:20px;font-size:12px;" class="subBtn" onclick="toAdd()">
+
+<font size="2" color="">最后更新操作员:</font><input type="text" class="input-text wid400 bg" id="last_modify_tlr_id" name="last_modify_tlr_id" value="${ last_modify_tlr_id}"/>
+
+<font size="2" color="">最后更新程序:</font><input type="text" class="input-text wid400 bg" id="last_modify_prg_id" name="last_modify_prg_id" value="${ last_modify_prg_id}"/>
+	
+<font size="2" color="">最后更新时间:</font>	<input id="last_modify_tm" name="last_modify_tm" value="${ last_modify_tm}" style="margin-right:10px;width: 150px" class="Wdate" 
+					 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})"/>
+
+最后更新时间结束:	<input id="last_modify_tmEnd" name="last_modify_tmEnd" value="${ last_modify_tmEnd}" style="margin-right:10px;width: 150px" class="Wdate" 
+					 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true})"/>
+	
+<input type="button" value="查询" name = "btn_search" onmouseover="this.style.cursor='hand'" style="width:50px;height:20px;font-size:12px;" class="subBtn" onclick="search()">
+	
+<input type="button" value="新增" name = "btn_search" onmouseover="this.style.cursor='hand'" style="width:50px;height:20px;font-size:12px;" class="subBtn" onclick="toAdd()">
+</div>
 	
 	</div>
 	<div id="signContent">

@@ -253,7 +253,7 @@ select {
 
 .pages {
 	overflow: hidden;
-	height: 60px;
+	height: 70px;
 	clear: both;
 	border-top: 1px solid #E4E4E4;
 }
