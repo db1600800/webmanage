@@ -456,25 +456,25 @@ public List findByHqlPage(final  String hql, final Map<String, Object> argsMap,f
  * @return 查询结果
  * 
  */
-//@SuppressWarnings("unchecked")
-//public List findBySql(final String sql, final Map<String, Object> argsMap) {
-//	if(sql == null || argsMap == null) {
-//		return null;
-//	}
-//	
-//	List list = getHibernateTemplate().executeFind(new HibernateCallback() {
-//		public Object doInHibernate(Session session) throws HibernateException, SQLException {
-//			Query query = session.createSQLQuery(sql);
-//			
-//			for(String key : argsMap.keySet()){
-//				query.setParameter(key, argsMap.get(key));
-//			}
-//			
-//			List list = query.list(); 
-//			return list; }});
-//	
-//	return list;
-//}
+@SuppressWarnings("unchecked")
+public List findBySql(final String sql, final Map<String, Object> argsMap) {
+	if(sql == null || argsMap == null) {
+		return null;
+	}
+	
+	List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+		public Object doInHibernate(Session session) throws HibernateException, SQLException {
+			Query query = session.createSQLQuery(sql);
+			
+			for(String key : argsMap.keySet()){
+				query.setParameter(key, argsMap.get(key));
+			}
+			
+			List list = query.list(); 
+			return list; }});
+	
+	return list;
+}
 
 /*
  * 使用参数绑定查询原生SQL语句分页查询
@@ -488,25 +488,25 @@ public List findByHqlPage(final  String hql, final Map<String, Object> argsMap,f
  * @return 查询结果
  * 
  */
-//@SuppressWarnings("unchecked")
-//public List findBySql(final String sql, final Map<String, Object> argsMap,final int offset,final int length) {
-//	if(sql == null || argsMap == null) {
-//		return null;
-//	}
-//	
-//	List list = getHibernateTemplate().executeFind(new HibernateCallback() {
-//		public Object doInHibernate(Session session) throws HibernateException, SQLException {
-//			Query query = session.createSQLQuery(sql);
-//			query.setFirstResult(offset); 
-//			query.setMaxResults(length);
-//			for(String key : argsMap.keySet()){
-//				query.setParameter(key, argsMap.get(key));
-//			}
-//			
-//			List list = query.list(); 
-//			return list; }});
-//	
-//	return list;
-//}
+@SuppressWarnings("unchecked")
+public List findBySql(final String sql, final Map<String, Object> argsMap,final int offset,final int length) {
+	if(sql == null || argsMap == null) {
+		return null;
+	}
+	
+	List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+		public Object doInHibernate(Session session) throws HibernateException, SQLException {
+			Query query = session.createSQLQuery(sql);
+			query.setFirstResult(offset); 
+			query.setMaxResults(length);
+			for(String key : argsMap.keySet()){
+				query.setParameter(key, argsMap.get(key));
+			}
+			
+			List list = query.list(); 
+			return list; }});
+	
+	return list;
+}
 
 }

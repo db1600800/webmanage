@@ -81,9 +81,9 @@ public interface ObjectDao {
 //	public List queryForPage(final String hql,final int offset,final int length);
 //	
 	public List findByHql(String hql,Object[] args);
-//	public List findBySql(String sql, Map<String, Object> argsMap);
+	public List findBySql(String sql, Map<String, Object> argsMap);
 	public int countObjectByHql(String sql,Object[] args);
-//	public List findBySql(final String sql, final Map<String, Object> argsMap,final int offset,final int length);
+	public List findBySql(final String sql, final Map<String, Object> argsMap,final int offset,final int length);
 	public List findByHqlPage(final  String hql, final Map<String, Object> argsMap,final int firstIndex,
 			final int maxResults);
 }
