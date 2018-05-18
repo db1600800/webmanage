@@ -86,4 +86,8 @@ public interface ObjectDao {
 	public List findBySql(final String sql, final Map<String, Object> argsMap,final int offset,final int length);
 	public List findByHqlPage(final  String hql, final Map<String, Object> argsMap,final int firstIndex,
 			final int maxResults);
+	
+	public List findBySql(final String sql, final Map<String, Object> argsMap,List tableBeans,List tableBeanShortName);
+	
+	public List findBySql(final String sql, final Map<String, Object> argsMap,List tableBeans,List tableBeanShortName,final int offset,final int length);
 }

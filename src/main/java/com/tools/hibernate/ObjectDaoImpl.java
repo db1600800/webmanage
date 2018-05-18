@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.CacheMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateCallback;
@@ -455,6 +456,28 @@ public List findByHqlPage(final  String hql, final Map<String, Object> argsMap,f
  * 
  * @return 查询结果
  * 
+ * 
+ * Session session = HibernateUtil.getSession();  
+        Transaction tx = session.beginTransaction();  
+        String sql = "select * from person_info";  
+        List list = session.createSQLQuery(sql).  
+                    addScalar("person_id",StandardBasicTypes.INTEGER).  
+                    addScalar("name", StandardBasicTypes.STRING).  
+                    addScalar("age",StandardBasicTypes.INTEGER).list();  
+        for(Iterator iterator = list.iterator();iterator.hasNext();){  
+            //每个集合元素都是一个数组，数组元素师person_id,person_name,person_age三列值  
+            Object[] objects = (Object[]) iterator.next();  
+            System.out.println("id="+objects[0]);  
+            System.out.println("name="+objects[1]);  
+            System.out.println("age="+objects[2]);  
+            System.out.println("----------------------------");  
+        }  
+        tx.commit();  
+        session.close();  
+
+ * 
+ * 
+ * 
  */
 @SuppressWarnings("unchecked")
 public List findBySql(final String sql, final Map<String, Object> argsMap) {
@@ -497,6 +520,80 @@ public List findBySql(final String sql, final Map<String, Object> argsMap,final 
 	List list = getHibernateTemplate().executeFind(new HibernateCallback() {
 		public Object doInHibernate(Session session) throws HibernateException, SQLException {
 			Query query = session.createSQLQuery(sql);
+			query.setFirstResult(offset); 
+			query.setMaxResults(length);
+			for(String key : argsMap.keySet()){
+				query.setParameter(key, argsMap.get(key));
+			}
+			
+			List list = query.list(); 
+			return list; }});
+	
+	return list;
+}
+
+
+/**
+ *  Session session = HibernateUtil.getSession();  
+    Transaction tx = session.beginTransaction();  
+    String sql = "select p.*,e.* from person_inf as p inner join event_inf as e" +  
+                 " on p.person_id=e.person_id";  
+    List list = session.createSQLQuery(sql)  
+                .addEntity("p",Person.class)  //指定将查询的记录行转换成Person实体 
+                .addEntity("e", MyEvent.class)  //指定将查询的记录行转换成MyEvent实体 
+                .list();  
+    for(Iterator iterator = list.iterator();iterator.hasNext();){  
+        //每个集合元素都是Person、MyEvent所组成的数组  
+        Object[] objects = (Object[]) iterator.next();  
+        Person person = (Person) objects[0];  
+        MyEvent event = (MyEvent) objects[1];  
+        System.out.println("person_id="+person.getId()+" person_name="+person.getName()+" title="+event.getTitle());  
+          
+    }  
+ * */
+@SuppressWarnings("unchecked")
+public List findBySql(final String sql, final Map<String, Object> argsMap,List tableBeans,List tableBeanShortName) {
+	if(sql == null || argsMap == null) {
+		return null;
+	}
+	
+	List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+		public Object doInHibernate(Session session) throws HibernateException, SQLException {
+			SQLQuery query = session.createSQLQuery(sql);
+			int i=0;
+			for(Object obj:tableBeans)
+			{
+				query.addEntity((String)tableBeanShortName.get(i),obj.getClass());
+				i++;
+			}
+			
+			for(String key : argsMap.keySet()){
+				query.setParameter(key, argsMap.get(key));
+			}
+			
+			List list = query.list(); 
+			return list; }});
+	
+	return list;
+}
+
+
+@SuppressWarnings("unchecked")
+public List findBySql(final String sql, final Map<String, Object> argsMap,List tableBeans,List tableBeanShortName,final int offset,final int length) {
+	if(sql == null || argsMap == null) {
+		return null;
+	}
+	
+	List list = getHibernateTemplate().executeFind(new HibernateCallback() {
+		public Object doInHibernate(Session session) throws HibernateException, SQLException {
+			SQLQuery query = session.createSQLQuery(sql);
+			
+			int i=0;
+			for(Object obj:tableBeans)
+			{
+				query.addEntity((String)tableBeanShortName.get(i),obj.getClass());
+				i++;
+			}
 			query.setFirstResult(offset); 
 			query.setMaxResults(length);
 			for(String key : argsMap.keySet()){
