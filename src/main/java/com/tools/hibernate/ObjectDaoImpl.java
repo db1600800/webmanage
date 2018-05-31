@@ -265,12 +265,12 @@ public class ObjectDaoImpl extends HibernateDaoSupport implements ObjectDao {
 //		return list;
 //	}
 //
-//	public int countObject(String objectPOName) {
-//		List list = getHibernateTemplate().find(
-//				"select count(*) from " + objectPOName + " as po ");
-//		int count = ((Long) list.get(0)).intValue();
-//		return count;
-//	}
+	public int countObject(String sql) {
+		List list = getHibernateTemplate().find(
+				sql );
+		int count = ((Long) list.get(0)).intValue();
+		return count;
+	}
 //
 //	public int countObjectBySql(String objectPOName, String sql) {
 //		List list = getHibernateTemplate().find(
@@ -563,7 +563,7 @@ public List findBySql(final String sql, final Map<String, Object> argsMap,List t
 			int i=0;
 			for(Object obj:tableBeans)
 			{
-				query.addEntity((String)tableBeanShortName.get(i),obj.getClass());
+				query.addEntity((String)tableBeanShortName.get(i),(Class)obj);
 				i++;
 			}
 			
@@ -591,7 +591,7 @@ public List findBySql(final String sql, final Map<String, Object> argsMap,List t
 			int i=0;
 			for(Object obj:tableBeans)
 			{
-				query.addEntity((String)tableBeanShortName.get(i),obj.getClass());
+				query.addEntity((String)tableBeanShortName.get(i),(Class)obj);
 				i++;
 			}
 			query.setFirstResult(offset); 

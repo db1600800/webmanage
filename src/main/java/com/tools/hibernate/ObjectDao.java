@@ -53,7 +53,7 @@ public interface ObjectDao {
 //	
 //	public List findBySql(String objectPOName, String sql,int firstIndex, int maxResults, String orderField);
 //
-//	public int countObject(String objectPOName);
+	public int countObject(String sql);
 //	
 //	public int countObjectBySql(String objectPOName, String sql);
 //	public int countObjectBySql2(String sql);
